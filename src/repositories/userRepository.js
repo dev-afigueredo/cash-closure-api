@@ -8,6 +8,14 @@ async function findByEmail(email) {
   return result.rows[0] || null;
 }
 
+async function findActiveByEmail(email) {
+  const result = await query(
+    'SELECT id, name, username, email, password_hash, role, profile_id FROM users WHERE email = $1 AND active = TRUE',
+    [email],
+  );
+  return result.rows[0] || null;
+}
+
 async function findActiveByUsername(username) {
   const result = await query(
     'SELECT id, name, username, email, password_hash, role, profile_id FROM users WHERE username = $1 AND active = TRUE',
@@ -95,6 +103,7 @@ async function updatePasswordHash(id, passwordHash) {
 
 module.exports = {
   findByEmail,
+  findActiveByEmail,
   findActiveByUsername,
   findById,
   listAllWithProfile,
