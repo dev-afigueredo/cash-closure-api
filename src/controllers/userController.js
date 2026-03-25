@@ -28,8 +28,8 @@ async function getUser(req, res) {
 
 async function createUser(req, res) {
   try {
-    const { nome, email, senha, perfilId, cargo, ativo } = req.body;
-    const usuario = await userService.createUser({ nome, email, senha, perfilId, cargo, ativo });
+    const { nome, username, email, senha, perfilId, cargo, ativo } = req.body;
+    const usuario = await userService.createUser({ nome, username, email, senha, perfilId, cargo, ativo });
     return res.status(201).json(usuario);
   } catch (error) {
     const status = error.statusCode || 500;
@@ -44,8 +44,8 @@ async function createUser(req, res) {
 async function updateUser(req, res) {
   try {
     const { id } = req.params;
-    const { nome, email, senha, perfilId, cargo, ativo } = req.body;
-    const usuario = await userService.updateUser(id, { nome, email, senha, perfilId, cargo, ativo });
+    const { nome, username, email, senha, perfilId, cargo, ativo } = req.body;
+    const usuario = await userService.updateUser(id, { nome, username, email, senha, perfilId, cargo, ativo });
     return res.json(usuario);
   } catch (error) {
     const status = error.statusCode || 500;

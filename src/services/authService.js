@@ -12,15 +12,15 @@ class AuthError extends Error {
   }
 }
 
-async function login({ email, senha }) {
-  const usuario = await userRepository.findActiveByEmail(email);
+async function login({ username, senha }) {
+  const usuario = await userRepository.findActiveByUsername(username);
   if (!usuario) {
-    throw new AuthError('E-mail ou senha incorretos.', 400);
+    throw new AuthError('Usuário ou senha incorretos.', 400);
   }
 
   const senhaCorreta = await bcrypt.compare(senha, usuario.password_hash);
   if (!senhaCorreta) {
-    throw new AuthError('E-mail ou senha incorretos.', 400);
+    throw new AuthError('Usuário ou senha incorretos.', 400);
   }
 
   const token = generateToken({ id: usuario.id, role: usuario.role, profileId: usuario.profile_id });
@@ -29,6 +29,7 @@ async function login({ email, senha }) {
     token,
     usuario: {
       nome: usuario.name,
+      username: usuario.username,
       email: usuario.email,
       cargo: usuario.role,
     },

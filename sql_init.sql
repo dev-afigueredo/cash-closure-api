@@ -12,6 +12,7 @@ CREATE TABLE IF NOT EXISTS access_profiles (
 CREATE TABLE IF NOT EXISTS users (
   id SERIAL PRIMARY KEY,
   name VARCHAR(150) NOT NULL,
+  username VARCHAR(150) NOT NULL UNIQUE,
   email VARCHAR(180) NOT NULL UNIQUE,
   password_hash VARCHAR(255) NOT NULL,
   profile_id INTEGER REFERENCES access_profiles(id) ON DELETE SET NULL,
@@ -64,9 +65,10 @@ VALUES (
 ) ON CONFLICT (name) DO NOTHING;
 
 -- ATENÇÃO: gere um hash bcrypt real e substitua o valor abaixo antes de rodar em produção
-INSERT INTO users (name, email, password_hash, profile_id, role)
+INSERT INTO users (name, username, email, password_hash, profile_id, role)
 VALUES (
   'Administrador',
+  'admin',
   'admin@docesemimos.com',
   '$2a$10$$2b$10$jh7SnKPeyBtIdw4T/IdvbuzJ/dKLi.BdLL7RG0F.4RNfP.2IOzWs.',
   (SELECT id FROM access_profiles WHERE name = 'Administrador'),

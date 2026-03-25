@@ -23,9 +23,9 @@ const router = express.Router();
  *         application/json:
  *           schema:
  *             type: object
- *             required: [email, senha]
+ *             required: [username, senha]
  *             properties:
- *               email:
+ *               username:
  *                 type: string
  *               senha:
  *                 type: string

@@ -59,9 +59,11 @@ router.get('/:id', authMiddleware, userController.getUser);
  *         application/json:
  *           schema:
  *             type: object
- *             required: [nome, email, senha]
+ *             required: [nome, username, email, senha]
  *             properties:
  *               nome:
+ *                 type: string
+ *               username:
  *                 type: string
  *               email:
  *                 type: string
@@ -101,6 +103,8 @@ router.post('/', authMiddleware, userController.createUser);
  *             type: object
  *             properties:
  *               nome:
+ *                 type: string
+ *               username:
  *                 type: string
  *               email:
  *                 type: string

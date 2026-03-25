@@ -48,7 +48,7 @@ psql -h localhost -U seu_usuario -d doces_mimos -f sql_init.sql
   - `cash_transactions` — movimentações de caixa (entrada/saída)
   - `cash_closures` — fechamentos de caixa
 - Perfil inicial **Administrador**
-- Usuário inicial **admin** (`admin@docesemimos.com`) com `password_hash` **placeholder**
+- Usuário inicial: nome original **Administrador**, username **admin**, email **admin@docesemimos.com** com `password_hash` **placeholder**
 
 > **Importante**: antes de usar em produção, gere um hash bcrypt real para a senha do admin e substitua o valor em `sql_init.sql`.
 
@@ -127,12 +127,6 @@ Backend ficará disponível em:
   - `GET /api/cash/closures` — relatório de fechamentos (filtros `inicio` e `fim` opcionais)
 
 ### Integração com o frontend existente
-
-O frontend em `contador-fechamento-caixa/src` já consome o login em:
-
-- `http://localhost:5000/api/auth/login`
-
-Mantendo o backend novo na **porta 5000**, não é necessário alterar esse endpoint.
 
 Para as novas telas (cadastro de usuário, perfis, fechamento/relatórios), basta:
 
