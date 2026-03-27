@@ -85,6 +85,7 @@ cp .env.example .env
   - `PGHOST`, `PGPORT`, `PGDATABASE`, `PGUSER`, `PGPASSWORD`
 - **E-mail (recuperação de senha)**
   - `MAIL_HOST`, `MAIL_PORT`, `MAIL_USER`, `MAIL_PASS`, `MAIL_FROM`
+  - *Consulte o guia detalhado [EMAIL_SETUP.md](./EMAIL_SETUP.md) para configurar o envio de e-mails usando o Gmail.*
 
 ### Instalação e execução
 
