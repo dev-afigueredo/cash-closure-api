@@ -49,6 +49,7 @@ CREATE TABLE IF NOT EXISTS cash_closures (
   total_withdrawals NUMERIC(12,2) NOT NULL DEFAULT 0,
   net_amount NUMERIC(12,2) NOT NULL,
   observations TEXT,
+  money_breakdown JSONB NOT NULL DEFAULT '{}'::jsonb,
   status VARCHAR(20) NOT NULL DEFAULT 'fechado',
   closed_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );

@@ -19,7 +19,7 @@ async function getBalance() {
   return { saldo };
 }
 
-async function saveClosure({ userId, operador, valorInicial, totalContado, totalSangrias, valorLiquido, observacoes }) {
+async function saveClosure({ userId, operador, valorInicial, totalContado, totalSangrias, valorLiquido, observacoes, detalhamento }) {
   const closure = await cashRepository.createClosure({
     userId,
     operador,
@@ -28,6 +28,7 @@ async function saveClosure({ userId, operador, valorInicial, totalContado, total
     totalSangrias,
     valorLiquido,
     observacoes,
+    detalhamento,
   });
   return closure;
 }
@@ -36,11 +37,16 @@ async function listClosures({ inicio, fim }) {
   return cashRepository.listClosures({ inicio, fim });
 }
 
+async function getClosureById(id) {
+  return cashRepository.getClosureById(id);
+}
+
 module.exports = {
   CashError,
   registerTransaction,
   getBalance,
   saveClosure,
   listClosures,
+  getClosureById,
 };
 

@@ -28,12 +28,13 @@ async function createClosure({
   totalSangrias,
   valorLiquido,
   observacoes,
+  detalhamento,
 }) {
   const result = await query(
     `INSERT INTO cash_closures
-     (user_id, operator_name, opening_balance, counted_total, total_withdrawals, net_amount, observations, status)
-     VALUES ($1, $2, $3, $4, $5, $6, $7, 'fechado')
-     RETURNING id, operator_name, opening_balance, counted_total, total_withdrawals, net_amount, observations, status, closed_at`,
+     (user_id, operator_name, opening_balance, counted_total, total_withdrawals, net_amount, observations, money_breakdown, status)
+     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, 'fechado')
+     RETURNING id, operator_name, opening_balance, counted_total, total_withdrawals, net_amount, observations, money_breakdown, status, closed_at`,
     [
       userId,
       operador,
@@ -42,6 +43,7 @@ async function createClosure({
       totalSangrias || 0,
       valorLiquido,
       observacoes || null,
+      detalhamento || {},
     ],
   );
   return result.rows[0];
@@ -68,6 +70,7 @@ async function listClosures({ inicio, fim }) {
             c.total_withdrawals AS total_sangrias,
             c.net_amount AS valor_liquido,
             c.observations AS observacoes,
+            c.money_breakdown AS detalhamento,
             c.status,
             c.closed_at,
             u.name AS usuario_responsavel
@@ -81,10 +84,32 @@ async function listClosures({ inicio, fim }) {
   return result.rows;
 }
 
+async function getClosureById(id) {
+  const result = await query(
+    `SELECT c.id,
+            c.operator_name AS operador,
+            c.opening_balance AS valor_inicial,
+            c.counted_total AS total_contado,
+            c.total_withdrawals AS total_sangrias,
+            c.net_amount AS valor_liquido,
+            c.observations AS observacoes,
+            c.money_breakdown AS detalhamento,
+            c.status,
+            c.closed_at,
+            u.name AS usuario_responsavel
+     FROM cash_closures c
+     LEFT JOIN users u ON u.id = c.user_id
+     WHERE c.id = $1`,
+    [id],
+  );
+  return result.rows[0];
+}
+
 module.exports = {
   createTransaction,
   getCurrentBalance,
   createClosure,
   listClosures,
+  getClosureById,
 };
 

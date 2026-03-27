@@ -82,6 +82,9 @@ router.get('/balance', authMiddleware, cashController.getBalance);
  *                 type: number
  *               observacoes:
  *                 type: string
+ *               detalhamento:
+ *                 type: object
+ *                 description: Quantidades de cada nota/moeda. Ex {"200": 1, "0.50": 5}
  *     responses:
  *       201:
  *         description: Fechamento salvo com sucesso
@@ -113,5 +116,78 @@ router.post('/closures', authMiddleware, cashController.saveClosure);
  */
 router.get('/closures', authMiddleware, cashController.listClosures);
 
-module.exports = router;
+/**
+ * @swagger
+ * /api/cash/closures/{id}:
+ *   get:
+ *     summary: Obtém um fechamento específico pelo ID
+ *     tags: [Caixa]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Dados do fechamento
+ *       404:
+ *         description: Fechamento não encontrado
+ */
+router.get('/closures/:id', authMiddleware, cashController.getClosure);
 
+/**
+ * @swagger
+ * /api/cash/sangria:
+ *   post:
+ *     summary: Registra uma sangria (retirada)
+ *     tags: [Caixa]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required: [valor]
+ *             properties:
+ *               valor:
+ *                 type: number
+ *               observacoes:
+ *                 type: string
+ *     responses:
+ *       201:
+ *         description: Sangria registrada com sucesso
+ */
+router.post('/sangria', authMiddleware, cashController.registerSangria);
+
+/**
+ * @swagger
+ * /api/cash/adjust:
+ *   post:
+ *     summary: Ajusta o saldo do sistema para um valor informado
+ *     tags: [Caixa]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required: [saldoInformado, motivo]
+ *             properties:
+ *               saldoInformado:
+ *                 type: number
+ *               motivo:
+ *                 type: string
+ *     responses:
+ *       201:
+ *         description: Ajuste realizado
+ */
+router.post('/adjust', authMiddleware, cashController.adjustBalance);
+
+module.exports = router;

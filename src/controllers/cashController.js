@@ -40,6 +40,7 @@ async function saveClosure(req, res) {
       totalSangrias,
       valorLiquido,
       observacoes,
+      detalhamento,
     } = req.body;
 
     const closure = await cashService.saveClosure({
@@ -50,6 +51,7 @@ async function saveClosure(req, res) {
       totalSangrias,
       valorLiquido,
       observacoes,
+      detalhamento,
     });
 
     return res.status(201).json({
@@ -80,10 +82,84 @@ async function listClosures(req, res) {
   }
 }
 
+async function registerSangria(req, res) {
+  try {
+    const { valor, observacoes } = req.body;
+    if (!valor || isNaN(valor) || valor <= 0) {
+      return res.status(400).json({ mensagem: 'Valor inválido para sangria.' });
+    }
+    const transaction = await cashService.registerTransaction({
+      userId: req.user.id,
+      tipo: 'saida',
+      descricao: observacoes || 'Sangria',
+      valor,
+    });
+    return res.status(201).json({ mensagem: 'Sangria registrada com sucesso', dados: transaction });
+  } catch (error) {
+    const status = error.statusCode || 500;
+    return res.status(status).json({ mensagem: error.message || 'Erro ao registrar sangria.' });
+  }
+}
+
+async function adjustBalance(req, res) {
+  try {
+    const { saldoInformado, motivo } = req.body;
+    if (saldoInformado === undefined || isNaN(saldoInformado) || saldoInformado < 0) {
+      return res.status(400).json({ mensagem: 'Saldo informado inválido.' });
+    }
+    if (!motivo) {
+      return res.status(400).json({ mensagem: 'Motivo é obrigatório para ajuste de saldo.' });
+    }
+
+    const { saldo: saldoAtual } = await cashService.getBalance();
+    const diferenca = Number(saldoInformado) - Number(saldoAtual);
+
+    if (diferenca === 0) {
+      return res.status(400).json({ mensagem: 'O saldo atual já é igual ao saldo informado.' });
+    }
+
+    const tipo = diferenca > 0 ? 'entrada' : 'saida';
+    const transaction = await cashService.registerTransaction({
+      userId: req.user.id,
+      tipo,
+      descricao: `Ajuste de sistema: ${motivo}`,
+      valor: Math.abs(diferenca),
+    });
+
+    const novoSaldo = await cashService.getBalance();
+
+    return res.status(201).json({
+      mensagem: 'Ajuste de saldo realizado com sucesso.',
+      transacao: transaction,
+      saldoAnterior: saldoAtual,
+      saldoNovo: novoSaldo.saldo,
+    });
+  } catch (error) {
+    const status = error.statusCode || 500;
+    return res.status(status).json({ mensagem: error.message || 'Erro ao ajustar saldo.' });
+  }
+}
+
+async function getClosure(req, res) {
+  try {
+    const { id } = req.params;
+    const closure = await cashService.getClosureById(id);
+    if (!closure) {
+      return res.status(404).json({ mensagem: 'Fechamento não encontrado.' });
+    }
+    return res.json(closure);
+  } catch (error) {
+    return res.status(500).json({ mensagem: 'Erro ao buscar fechamento', erro: error.message });
+  }
+}
+
 module.exports = {
   registerTransaction,
   getBalance,
   saveClosure,
   listClosures,
+  registerSangria,
+  adjustBalance,
+  getClosure,
 };
 
