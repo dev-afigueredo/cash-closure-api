@@ -1,6 +1,6 @@
 # Configuração de E-mail para Recuperação de Senha
 
-O sistema de **Cash Closure API** permite o envio de e-mails para que os usuários possam redefinir suas senhas. Para isso, é necessário configurar um serviço SMTP. 
+O sistema de **Cash Closure API** permite o envio de e-mails para que os usuários possam redefinir suas senhas. Para isso, é necessário configurar um serviço SMTP.
 
 Você pode usar o **Gmail** de forma simples, mas como o Google não permite mais o uso direto da senha da sua conta para aplicativos de terceiros, você precisará gerar uma **Senha de App** na sua conta Google.
 

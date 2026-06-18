@@ -134,4 +134,3 @@ Para as novas telas (cadastro de usuário, perfis, fechamento/relatórios), bast
 1. Ler o token salvo em `localStorage` (`token`) após o login.
 2. Enviar o header `Authorization: Bearer <token>` nas requisições `fetch`.
 3. Consumir os endpoints descritos acima ou consultar os detalhes em `http://localhost:5000/api-docs`.
-
