@@ -1,0 +1,17 @@
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: doces_mimos_postgres
+    restart: always
+    environment:
+      POSTGRES_DB: doces_mimos
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: neguinha
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./sql_init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+
+volumes:
+  postgres_data:

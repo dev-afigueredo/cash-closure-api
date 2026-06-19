@@ -65,13 +65,14 @@ VALUES (
   }'
 ) ON CONFLICT (name) DO NOTHING;
 
--- ATENÇÃO: gere um hash bcrypt real e substitua o valor abaixo antes de rodar em produção
+-- ATENÇÃO: gere um hash bcrypt real e substitua o valor abaixo antes de rodar em produção.
+-- O hash abaixo corresponde à senha padrão: 'admin'
 INSERT INTO users (name, username, email, password_hash, profile_id, role)
 VALUES (
   'Administrador',
   'admin',
   'admin@docesemimos.com',
-  '$2a$10$$2b$10$jh7SnKPeyBtIdw4T/IdvbuzJ/dKLi.BdLL7RG0F.4RNfP.2IOzWs.',
+  '$2b$10$TWKeMptqsEILAmeBPyaD9.Ziqa8/jeYWLL4Lj5hQgKBRIt73pPWtq',
   (SELECT id FROM access_profiles WHERE name = 'Administrador'),
   'admin'
 ) ON CONFLICT (email) DO NOTHING;

@@ -29,6 +29,26 @@ API em **Node.js + Express + PostgreSQL** para o sistema de fechamento de caixa,
 
 ### Configuração do banco (PostgreSQL)
 
+Você pode rodar o banco de dados PostgreSQL localmente de duas maneiras: usando Docker Compose (recomendado) ou instalando diretamente em sua máquina.
+
+#### Opção A: Usando Docker Compose (Recomendado)
+
+O projeto inclui um arquivo `docker-compose.yml` pré-configurado que cria o container do banco de dados e executa automaticamente o script `sql_init.sql` para criar as tabelas e o administrador inicial.
+
+1. Certifique-se de que o Docker e o Docker Compose estejam instalados e em execução.
+2. Na raiz da pasta `cash-closure-api`, execute o comando:
+
+```bash
+docker compose up -d
+```
+
+Isso subirá o banco em segundo plano. O banco estará disponível na porta `5432` com as tabelas já inicializadas e com as credenciais padrão do arquivo `.env` (usuário: `postgres`, senha: `neguinha`, banco: `doces_mimos`).
+
+* **Parar o banco:** `docker compose down`
+* **Ver logs:** `docker compose logs -f`
+
+#### Opção B: Instalação Local Manual
+
 1. Crie o banco de dados (por exemplo `doces_mimos`):
 
 ```sql
