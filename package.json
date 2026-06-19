@@ -4,7 +4,9 @@
   "description": "API Node.js + PostgreSQL para o sistema de fechamento de caixa",
   "main": "src/server.js",
   "scripts": {
-    "dev": "node src/server.js"
+    "dev": "node src/server.js",
+    "test": "jest",
+    "test:coverage": "jest --coverage"
   },
   "engines": {
     "node": ">=18"
@@ -19,5 +21,8 @@
     "pg": "^8.13.1",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1"
+  },
+  "devDependencies": {
+    "jest": "^30.4.2"
   }
 }

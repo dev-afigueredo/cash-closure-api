@@ -18,6 +18,9 @@ API em **Node.js + Express + PostgreSQL** para o sistema de fechamento de caixa,
       - `profiles.js` — CRUD de perfis de acesso
       - `users.js` — CRUD de usuários
       - `cash.js` — operações de caixa (saldo, fechamentos, movimentações)
+  - **tests/** — testes unitários da aplicação
+    - **services/** — testes de regras de negócio de cada serviço
+    - **middlewares/** — testes de lógica de middlewares (como autenticação)
 
 ### Pré-requisitos
 
@@ -90,7 +93,7 @@ cp .env.example .env
 ### Instalação e execução
 
 ```bash
-cd backend
+cd cash-closure-api
 npm install
 npm run dev
 ```
@@ -99,6 +102,27 @@ Backend ficará disponível em:
 
 - API: `http://localhost:5000`
 - Swagger: `http://localhost:5000/api-docs`
+
+### Executando os Testes
+
+A API possui uma suíte de testes unitários desenvolvida com **Jest** para validar as regras de negócio de todos os serviços e middlewares.
+
+Para executar os testes:
+
+1. Certifique-se de que as dependências estejam instaladas (incluindo o Jest):
+   ```bash
+   npm install
+   ```
+
+2. Execute todos os testes unitários:
+   ```bash
+   npm test
+   ```
+
+3. Execute os testes e gere o relatório de cobertura de código (code coverage):
+   ```bash
+   npm run test:coverage
+   ```
 
 ### Endpoints principais
 
